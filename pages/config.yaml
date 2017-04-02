@@ -1,0 +1,321 @@
+- partido: DEMOCRATAS
+  sigla: DEM
+  antigo_nome:
+  - PARTIDO DA FRENTE LIBERAL
+  site: http://www.dem.org.br/
+  lista_noticias:
+  - http://www.dem.org.br/todas-noticias/page/{index}/
+  lista_noticias_link: h2.entry-title:parent
+  text: .entry-title,p
+
+- partido: PARTIDO COMUNISTA BRASILEIRO
+  sigla: PCB
+  site: http://pcb.org.br/
+  lista_noticias:
+  - https://pcb.org.br/portal2/date/2016/08
+  - https://pcb.org.br/portal2/date/2016/07
+  - https://pcb.org.br/portal2/date/2016/06
+  - https://pcb.org.br/portal2/date/2016/05
+  - https://pcb.org.br/portal2/date/2016/04
+  - https://pcb.org.br/portal2/date/2016/03
+  - https://pcb.org.br/portal2/date/2016/02
+  - https://pcb.org.br/portal2/date/2016/01
+  - https://pcb.org.br/portal2/date/2015/12
+  - https://pcb.org.br/portal2/date/2015/11
+  - https://pcb.org.br/portal2/date/2015/10
+  - https://pcb.org.br/portal2/date/2015/09
+  - https://pcb.org.br/portal2/date/2015/08
+  - https://pcb.org.br/portal2/date/2015/07
+  - https://pcb.org.br/portal2/date/2015/06
+  - https://pcb.org.br/portal2/date/2015/05
+  - https://pcb.org.br/portal2/date/2015/04
+  - https://pcb.org.br/portal2/date/2015/03
+  - https://pcb.org.br/portal2/date/2015/02
+  - https://pcb.org.br/portal2/date/2015/01
+  - https://pcb.org.br/portal2/date/2014/12
+  - https://pcb.org.br/portal2/date/2014/11
+  - https://pcb.org.br/portal2/date/2014/10
+  - https://pcb.org.br/portal2/date/2014/09
+  - https://pcb.org.br/portal2/date/2014/08
+  - https://pcb.org.br/portal2/date/2014/07
+  - https://pcb.org.br/portal2/date/2014/06
+  - https://pcb.org.br/portal2/date/2014/05
+  - https://pcb.org.br/portal2/date/2014/04
+  - https://pcb.org.br/portal2/date/2014/03
+  - https://pcb.org.br/portal2/date/2014/02
+  - https://pcb.org.br/portal2/date/2014/01
+  lista_noticias_link: .entry-title a
+  text: .entry-title,.entry-content>p
+
+- partido: PARTIDO DA REPÚBLICA
+  antigo_nome:
+  - PARTIDO LIBERAL
+  - PARTIDO DA REEDIFICAÇÃO DA ORDEM NACIONAL
+  sigla: PR
+  site: http://www.partidodarepublica.org.br
+  lista_noticias:
+  - http://www.partidodarepublica.org.br/partido/noticias_republicanas_anteriores_2007.html
+  - http://www.partidodarepublica.org.br/partido/noticias_republicanas_anteriores_2008.html
+  - http://www.partidodarepublica.org.br/partido/noticias_republicanas_anteriores_2009.html
+  - http://www.partidodarepublica.org.br/partido/noticias_republicanas_anteriores_2010.html
+  - http://www.partidodarepublica.org.br/partido/noticias_republicanas_anteriores_2011.html
+  - http://www.partidodarepublica.org.br/partido/noticias_republicanas_anteriores_2012.html
+  - http://www.partidodarepublica.org.br/partido/noticias_correio_22_2013.html
+  - http://www.partidodarepublica.org.br/partido/noticias_correio_22_2014.html
+  - http://www.partidodarepublica.org.br/partido/noticias_correio_22_2015.html
+  - http://www.partidodarepublica.org.br/partido/noticias_correio_22_2016.html
+  lista_noticias_link: a.link_para_texto_pequeno_destque
+  lista_artigos:
+  - http://www.partidodarepublica.org.br/partido/artigos.html
+  lista_artigos_link: a.menu
+  text: .link_TITULOSCENTRALIZADOS_MAIOR,.txt_interno
+
+- partido: PARTIDO COMUNISTA DO BRASIL
+  sigla: PCdoB
+  site: http://www.pcdob.org.br/
+  lista_noticias:
+  - http://www.pcdob.org.br/noticias.php?id_secao=3&lista=lista&pagina={index}
+  lista_noticias_link: ul.lista-1 li p a
+  text: "#article"
+
+- partido: PARTIDO DA CAUSA OPERÁRIA
+  sigla: PCO
+  site: http://www.pco.org.br/
+  lista_noticias:
+  - http://causaoperaria.org.br/page/{index}/
+  lista_noticias_link: .entry-title a,a.feature-posts-title
+  text: .post-content h1 a,.entry-content>p
+
+- partido: PARTIDO DA MOBILIZAÇÃO NACIONAL
+  sigla: PMN
+  site: http://pmn.org.br/
+  noticias:
+  - http://pmn.org.br/post.aspx?c=1&pid={index}
+  text: .title-details,.content-details p
+
+
+- partido: PARTIDO DA SOCIAL DEMOCRACIA BRASILEIRA
+  sigla: PSDB
+  site: http://www.psdb.org.br/
+  lista_noticias:
+  - http://www.psdb.org.br/imprensa/noticias/page/{index}
+  lista_noticias_link: .post-title a
+  text: .single-title h1,.single-content p
+
+- partido: PARTIDO DEMOCRÁTICO TRABALHISTA
+  sigla: PDT
+  site: http://www.pdt.org.br/
+  lista_noticias:
+  - http://www.pdt.org.br/index.php/noticias/page/{index}/
+  lista_noticias_link: .tituloNoticiaEleicoes:parent
+  text: .tituloPageInterna,.textoInterna p
+
+- partido: PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO
+  sigla: PMDB
+  site: http://pmdb.org.br/
+  lista_noticias:
+  - http://pmdb.org.br/noticias/page/{index}/
+  lista_noticias_link: .interna h1 a
+  text: .grid_2.leftPage h1,.grid_2.leftPage p
+
+- partido: PARTIDO DOS TRABALHADORES
+  sigla: PT
+  site: http://www.pt.org.br/
+  lista_noticias:
+  - http://www.pt.org.br/noticias-do-pt/page/{index}/
+  lista_noticias_link: a .wp-post-image:parent
+  text: .post-title,.post-box-meta-single,.post-entry p
+
+- partido: PARTIDO ECOLÓGICO NACIONAL
+  sigla: PEN
+  site: http://pen51.org.br/
+  lista_noticias:
+  - http://www.pen51.org.br/noticias-nacionais.php?categoria=&pag={index}
+  - http://pen51.org.br/noticias.php?categoria=p&pag={index}
+  - http://pen51.org.br/noticias.php?categoria=e&pag={index}
+  lista_noticias_link: .lista-noticias li a
+  text: .container-noticia.texto h2,.container-noticia.texto p
+
+- partido: PARTIDO HUMANISTA DA SOLIDARIEDADE
+  sigla: PHS
+  site: http://phs.org.br/
+  lista_noticias:
+  - http://phs.org.br/noticias/&pg={index}
+  lista_noticias_link: "#noticias a"
+  text: .cabecalho h1,.cabecalho h2,.txt p
+
+- partido: PARTIDO POPULAR SOCIALISTA
+  sigla: PPS
+  site: http://www.pps.org.br/
+  lista_noticias:
+  - http://www.pps.org.br/categoria/noticias/page/{index}/
+  lista_noticias_link: .list-news li a
+  text: .title-page,.content-page p
+
+- partido: PARTIDO PROGRESSISTA
+  sigla: PP
+  site: http://www.pp.org.br/
+  lista_noticias:
+  - http://www.pp.org.br/Noticias/453/RelacaoNoticias/Default.asp?ttPagina={index}
+  lista_noticias_link: .descricao a
+  text: .direita h2,.content div
+
+- partido: PARTIDO PÁTRIA LIVRE
+  sigla: PPL
+  site: http://www.partidopatrialivre.org.br/
+  lista_noticias:
+  - http://www.partidopatrialivre.org.br/indice_noticias.html
+  lista_noticias_link: .indice_materias a
+  text: .materia
+
+- partido: PARTIDO RENOVADOR TRABALHISTA BRASILEIRO
+  sigla: PRTB
+  site: http://prtb.org.br/
+  lista_noticias:
+  - http://prtb.org.br/category/noticia/page/{index}/
+  lista_noticias_link: .entry_title a
+  text: .entry .entry_title,.entry p
+
+- partido: PARTIDO REPUBLICANO BRASILEIRO
+  sigla: PRB
+  site: http://www.prb10.org.br/
+  lista_noticias:
+  - http://www.prb10.org.br/ultimas-noticias/page/{index}/
+  lista_noticias_link: .page-title a
+  text: .page-title,.content-section p
+
+- partido: PARTIDO REPUBLICANO DA ORDEM SOCIAL
+  sigla: PROS
+  site: http://www.pros.org.br/
+  lista_noticias:
+  - http://www.pros.org.br/categoria/noticias/page/{index}/
+  lista_noticias_link: article h3 a
+  text: .titulo,.conteudo p
+
+- partido: PARTIDO REPUBLICANO PROGRESSISTA
+  sigla: PRP
+  site: http://www.prp.org.br/
+  lista_noticias:
+  - http://www.prp.org.br/noticias/index.asp?p={index}
+  lista_noticias_link: .imgs:parent
+  text: .verdana24preto,p span span
+
+- partido: PARTIDO SOCIAL CRISTÃO
+  sigla: PSC
+  site: http://www.psc.org.br/site/
+  lista_noticias:
+  - http://www.psc.org.br/site/comunicacao-psc/todas-as-noticias.html?start={index}1
+  lista_noticias_link: .readmore a
+  text: article h2,article>p
+
+
+- partido: PARTIDO SOCIAL DEMOCRATA CRISTÃO
+  sigla: PSDC
+  site: http://www.psdc.org.br/
+  lista_noticias:
+  - http://www.psdc.org.br/categoria/noticias/page/{index}/
+  lista_noticias_link: "#artigos-noticias h2 a"
+  text: "#detalhe-noticias h2,#detalhe-noticias p"
+
+- partido: PARTIDO SOCIAL DEMOCRÁTICO
+  sigla: PSD
+  site: http://psd.org.br/
+  lista_noticias:
+  - http://psd.org.br/noticias/page/{index}/
+  lista_noticias_link: .frame>a
+  text: article h1,article p
+
+# - partido: PARTIDO SOCIAL LIBERAL
+#   sigla: PSL
+#   site: http://www.psl.org.br/
+
+- partido: PARTIDO SOCIALISMO E LIBERDADE
+  sigla: PSOL
+  site: http://www.psol50.org.br/
+  lista_noticias:
+  - http://www.psol50.org.br/blog/category/noticias/page/{index}/
+  lista_noticias_link: li.post h2 a
+  text: .entry-title,article p
+
+- partido: PARTIDO SOCIALISTA BRASILEIRO
+  sigla: PSB
+  site: http://www.psb40.org.br/
+  lista_noticias:
+  - http://www.psb40.org.br/not.asp?pag={index}
+  lista_noticias_link: a.style11
+  text: "p.style9,#txt_home div"
+
+- partido: PARTIDO SOCIALISTA DOS TRABALHADORES UNIFICADO
+  sigla: PSTU
+  site: http://www.pstu.org.br/
+  lista_noticias:
+  - http://www.pstu.org.br/noticias?page={index}
+  lista_noticias_link: .view-content li a
+  text: "#texto_artigo h1,.content p"
+
+- partido: PARTIDO TRABALHISTA BRASILEIRO
+  antigo_nome:
+  - PARTIDO DOS APOSENTADOS DA NAÇÃO
+  sigla: PTB
+  site: https://ptb.org.br/
+  lista_noticias:
+  - https://ptb.org.br/conteudos/noticias/page/{index}/
+  lista_noticias_link: .card-title a
+  text: .content-header h4,.wpb_wrapper p
+
+- partido: PARTIDO TRABALHISTA CRISTÃO
+  sigla: PTC
+  site: http://www.ptc36nacional.com.br/
+  lista_noticias:
+  - http://www.ptc36nacional.com.br/page/{index}/
+  lista_noticias_link: .title h2 a
+  text: .title h2 a,.entry p
+
+- partido: PARTIDO TRABALHISTA DO BRASIL
+  sigla: PTdoB
+  site: http://www.ptdob.org.br/
+  lista_noticias:
+  - http://www.ptdob.org.br/noticias/page/{index}/
+  lista_noticias_link: .entry-title a
+  text: .entry-title a,.entry-body p
+
+- partido: PARTIDO TRABALHISTA NACIONAL
+  sigla: PTN
+  site: http://www.ptn.org.br/
+  lista_noticias:
+  - http://www.ptn.org.br/2013/noticias.asp?pagina={index}
+  lista_noticias_link: td.textoCentro>a
+  text: .title_article,article p
+
+- partido: PARTIDO VERDE
+  sigla: PV
+  site: http://pv.org.br/
+  lista_noticias:
+  - http://pv.org.br/blog/page/{index}/
+  lista_noticias_link: .posttitle a
+  text: .posttitle a,.posttext p
+
+- partido: SOLIDARIEDADE
+  sigla: SD
+  site: http://www.solidariedade.org.br/
+  lista_noticias:
+  - http://www.solidariedade.org.br/noticias/page/{index}/
+  lista_noticias_link: a.post-title-link
+  text: .post-title,.post-content p
+
+- partido: REDE SUSTENTABILIDADE
+  sigla: REDE
+  site: https://redesustentabilidade.org.br/
+  lista_noticias:
+  - https://redesustentabilidade.org.br/page/{index}/
+  lista_noticias_link: "#post-area h2 a"
+  text: .post>div h1,.post>div p
+
+- partido: PARTIDO DA MULHER BRASILEIRA
+  sigla: PMB
+  site: http://www.pmb.org.br/
+  lista_noticias:
+  - http://www.pmb.org.br/page/{index}/
+  lista_noticias_link: .titulo_post a
+  text: h1,.box_content_post p
+

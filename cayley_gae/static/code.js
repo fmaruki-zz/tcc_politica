@@ -1,215 +1,176 @@
-function thunkify(fun) {
-    return function() {
-        var args = Array.prototype.slice.call(arguments);
-        return function(callback) {
-            args.push(callback);
-            fun.apply(null, args);
-        };
-    };
+function renderPartidos(listaPartidos) {
+    jQuery(".ui-tooltip").remove()
+    var partidos_ul = document.getElementById("partidos");
+    var fragment = document.createDocumentFragment();
+    listaPartidos.forEach(function(partido) {
+        var li_partido = document.createElement("li");
+        li_partido.textContent = partido.sigla;
+        li_partido.title = partido.sigla;
+        li_partido.setAttribute("graph_id", partido.id);
+        fragment.appendChild(li_partido);
+    });
+    partidos_ul.innerHTML = "";
+    partidos_ul.appendChild(fragment);
 }
 
-var async_all = thunkify(function() {
-    function exec_next_thunk(thunks, results, callback) {
-        var thunk = thunks.shift();
-        if (thunks.length > 0) {
-            thunk(function(r) {
-                results.push(r);
-                exec_next_thunk(thunks, results, callback);
-            });
+var selected_terms = {
+    inner: [],
+    add: function(term) {
+        if(this.inner.indexOf(term) === -1) {
+            this.inner.push(term);
+            this.render();
+        }
+    },
+    remove: function(term) {
+        if (term) {
+            this.inner = this.inner.filter(function(a) {return a!=term});
         } else {
-            thunk(function(r) {
-                results.push(r);
-                callback.apply(null, results);
-            });
+            this.inner = [];
+        }
+        this.render();
+    },
+    select: function(term) {
+        this.inner = [term];
+        this.render();
+    },
+    has: function(term) {
+        return this.inner.indexOf(term) > -1;
+    },
+    render: function() {
+        var termos_ul = document.getElementById("assuntos");
+        var fragment = document.createDocumentFragment();
+        this.inner.forEach(function(termo) {
+            var li_termo = document.createElement("li");
+            li_termo.textContent = termo;
+            fragment.appendChild(li_termo);
+        });
+        termos_ul.innerHTML = "";
+        termos_ul.appendChild(fragment);
+    }
+};
+
+var selected_partidos = {
+    inner: [],
+    add: function(term) {
+        if(this.inner.indexOf(term) === -1) {
+            this.inner.push(term);
+        }
+    },
+    remove: function(term) {
+        if (term) {
+            this.inner = this.inner.filter(function(a) {return a!=term});
+        } else {
+            this.inner = [];
+        }
+    },
+    select: function(term) {
+        this.inner = [term];
+    },
+    has: function(term) {
+        return this.inner.indexOf(term) > -1;
+    },
+    render: function() {
+        jQuery("#partidos li").removeClass("selected");
+        this.inner.forEach(function(partido) {
+            jQuery("[graph_id='" + partido + "']").addClass("selected", true);
+        });
+    }
+};
+
+var wordcloud_chart = new WordCloudChart(850, 350, "#graph", function(d) {
+    console.log(d3.event);
+    if(d3.event.ctrlKey) {
+        selected_terms.add(d.text);
+    } else {
+        selected_terms.select(d.text);
+    }
+    var ids = selected_terms.inner.join(",");
+    run("termos_by_term", {id: ids})(function(data) {
+        var termos = data.result.map(function(a) {return {text: a.nome, size: 10}});
+        wordcloud_chart.update(termos);
+        selected_partidos.remove();
+        selected_partidos.render();
+        run("partidos_by_term", {id: ids})(function(data) {
+            var partidos = data.result;
+            partidos.sort(function(a, b) {return b.peso - a.peso});
+            renderPartidos(partidos);
+        });
+    });
+});
+
+jQuery("#assuntos").on("click", "li", function() {
+    selected_terms.remove(this.textContent);
+    selected_partidos.remove();
+    selected_partidos.render();
+});
+
+jQuery("#clear").on("click", function() {
+    selected_terms.remove();
+    selected_partidos.remove();
+    selected_partidos.render();
+    wordcloud_chart.update([]);
+    run("todos_partidos")(function(data) {
+        renderPartidos(shuffle(data.result));
+    });
+});
+
+jQuery(document).ready(function() {
+    run("todos_partidos")(function(data) {
+        renderPartidos(shuffle(data.result));
+    });
+
+    jQuery(document).tooltip({
+        content: function() {
+            var template = jQuery("#template-tooltip").html();
+            var data = dados_partidos[this.title];
+            return template.replace(/\{\{sigla\}\}/g, this.title).replace("{{nome}}", data.nome).replace("{{site}}", data.site);
+        },
+        close: function( event, ui ) {
+            jQuery(".ui-helper-hidden-accessible div").remove()
+        }
+    });
+});
+
+jQuery("#partidos").on("click", "li", function(ev) {
+    var partido = this.textContent;
+    var graph_id = jQuery(this).attr("graph_id");
+    if(selected_partidos.has(graph_id)) {
+        selected_partidos.remove(graph_id);
+    } else {
+        if(ev.ctrlKey) {
+            selected_partidos.add(graph_id);
+        } else {
+            selected_partidos.select(graph_id);
         }
     }
-    var thunks = Array.prototype.slice.call(arguments);
-    var callback = thunks.pop();
-    exec_next_thunk(thunks, [], callback);
-});
-
-
-
-var run = thunkify(function(query, values, callback) {
-    if (typeof values === "function") {
-        callback = values;
-        values = {};
+    if(selected_partidos.inner.length === 0) {
+        selected_partidos.render();
+        wordcloud_chart.update([]);
+        return;
     }
-    var pass = jQuery(".password").val();
-    jQuery.get("/run", {
-        queryName: query,
-        pass: pass,
-        id: values.id,
-        lvl: values.lvl
-    }).done(callback);
-});
-
-var diameter = window.innerWidth;
-var height = window.innerHeight;
-
-var pack = d3.pack()
-    .size([diameter - 2, diameter - 2])
-    .padding(5);
-
-var svg = d3.select("#graph")
-    .attr("width", diameter)
-    .attr("height", diameter)
-    .attr("class", "bubble");
-
-jQuery(".password").on("change", function() {
-    run("todos_partidos")(function(data) {
-
-        data.result.forEach(function(x) {
-            x.value = 30;
-        });
-
-        var root = d3.hierarchy({
-                children: data.result
-            })
-            .sum(function(d) {
-                return d.value;
-            })
-            .sort(function(a, b) {
-                return b.value - a.value;
-            });
-
-        pack(root);
-        update(root);
+    run("similar", {id: selected_partidos.inner[0]})(function(data) {
+        var partidos = data.result;
+        partidos.sort(function(a, b) {return b.qtd - a.qtd});
+        renderPartidos(partidos);
+        selected_partidos.render();
+    });
+    run("termos", {id: selected_partidos.inner.join(",")})(function(data) {
+        var termos = data.result.map(function(a) {return {text: a.id.slice(1,-1), size: 10}});
+        wordcloud_chart.update(termos);
     });
 });
 
-function update(root) {
-    root.children.forEach(function(d) {
-        d.sigla = d.data.sigla;
-    });
-    var node = svg.selectAll(".node")
-        .data(root.children, function(d) {
-            return d.sigla;
+jQuery("#search").on("change", function() {
+    run("search", {id: this.value})(function(data) {
+        var termos = data.result.map(function(a) {return {text: a.nome, size: 10}});
+        selected_partidos.remove();
+        selected_partidos.render();
+        wordcloud_chart.update(termos);
+        var ids = termos.map(function(a) {return a.text}).join(",");
+        run("partidos_by_term", {id: ids})(function(data) {
+            var partidos = data.result;
+            partidos.sort(function(a, b) {return b.peso - a.peso});
+            renderPartidos(partidos);
         });
-
-    var node_enter = node
-        .enter().append("g")
-        .attr("class", "node")
-        .classed("termo", d => !!d.data.classname)
-        .attr("transform", function(d) {
-            return "translate(" + d.x + "," + d.y + ")";
-        })
-        .on("click", function(d) {
-            async_all(
-                run("similar", {
-                    id: d.data.id,
-                    lvl: 1
-                }),
-                run("similar", {
-                    id: d.data.id,
-                    lvl: 2
-                }),
-                run("similar", {
-                    id: d.data.id,
-                    lvl: 3
-                }),
-                run("termos", {
-                    id: d.data.id
-                })
-            )(function(dd1, dd2, dd3, dd4) {
-
-                r1 = dd1.result;
-                r2 = dd2.result;
-                r3 = dd3.result;
-                r4 = dd4.result;
-                var pp = {};
-                pp[d.data.id] = {
-                    sigla: d.data.sigla,
-                    id: d.data.id,
-                    qtd: 27
-                };
-                r1.forEach(function(item) {
-                    item.qtd = +item.qtd + 9;
-                    pp[item.id] = item;
-                });
-                r2.forEach(function(item) {
-                    item.qtd = +item.qtd + 3;
-                    if (!pp[item.id]) {
-                        pp[item.id] = item;
-                    } else {
-                        pp[item.id].qtd += item.qtd;
-                    }
-                });
-                r3.forEach(function(item) {
-                    item.qtd = +item.qtd + 3;
-                    if (!pp[item.id]) {
-                        pp[item.id] = item;
-                    } else {
-                        pp[item.id].qtd += item.qtd;
-                    }
-                });
-                r4.forEach(function(item) {
-                    item.sigla = item.id.toUpperCase();
-                    item.qtd = 10;
-                    item.classname = "termo";
-                    pp[item.id] = item;
-                })
-
-                var data = [];
-                for (var p in pp) {
-                    data.push(pp[p]);
-                }
-
-                data.forEach(function(x) {
-                    x.value = x.qtd;
-                });
-
-                var root = d3.hierarchy({
-                        children: data
-                    })
-                    .sum(function(d) {
-                        return d.value;
-                    })
-                    .sort(function(a, b) {
-                        return b.value - a.value;
-                    });
-
-                pack(root);
-                update(root);
-            });
-        });
-
-    node_enter.append("title")
-        .text(d => d.sigla + ": " + d.value);
-
-    node_enter.append("circle")
-        .attr("r", d => d.r);
-
-    // node_enter.append("text")
-    //     .attr("dy", ".3em")
-    //     .style("text-anchor", "middle")
-    //     .text(d => d.data.sigla);
-
-    node_enter.append("foreignObject")
-        .style("text-anchor", "middle")
-        .attr("x", d => -0.8*d.r)
-        .attr("y", d => -0.6*d.r)
-        .attr("width", d => 1.6*d.r)
-        .attr("height", d => 2*d.r)
-        .append("xhtml:p")
-        .text(d => d.data.sigla)
-        .attr('style', 'text-align:center;padding:2px;margin:2px;');
-
-
-    // .attr('x', x - (side/2))
-    // .attr('y', y - (side/2))
-    // .attr('width', side)
-    // .attr('height', side)
-
-
-
-    node.select("circle").transition()
-        .attr("r", d => d.r);
-    node.transition().attr("transform", function(d) {
-        return "translate(" + d.x + "," + d.y + ")";
     });
-    node.select("text")
-        .text(d => d.sigla);
-
-    node.exit().remove();
-}
+});

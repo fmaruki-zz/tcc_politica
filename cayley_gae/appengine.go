@@ -99,10 +99,10 @@ func init() {
 	}
 	terms_string := string(terms_bytes)
 	http.HandleFunc("/run", func(w http.ResponseWriter, r *http.Request) {
-		pass := r.URL.Query().Get("pass")
-		if pass != "titan" {
-			log.Fatalln(pass)
-		}
+		// pass := r.URL.Query().Get("pass")
+		// if pass != "titan" {
+		// 	log.Fatalln(pass)
+		// }
 		queryName := r.URL.Query().Get("queryName")
 		var results []tInfo
 		switch queryName {
@@ -113,17 +113,25 @@ func init() {
 			})
 			break
 		case "partidos_by_term":
-			id := r.URL.Query().Get("id")
-			// p := path.NewPath(store).Has(quad.IRI("nome"), quad.String(id)).In(quad.IRI("termo_partido")).In(quad.IRI("peso_termo_partido")).Save(quad.IRI("sigla"), "sigla")
-			p := ApplyPath(path.NewPath(store).Has(quad.IRI("nome"), quad.String(id)), "-termo_partido -peso_termo_partido #sigla")
-			// p := ApplyPathHas(store, "nome", id, "-termo_partido -peso_termo_partido #sigla")
-			iterate(p, store, func(info tInfo) {
+			id_str := r.URL.Query().Get("id")
+			ids := strings.Split(id_str, ",")
+			counter := make(map[string]float64)
+			infos := make(map[string](tInfo))
+			for _, id := range ids {
+				p := ApplyPath(path.NewPath(store).Has(quad.IRI("nome"), quad.String(id)), "-termo_partido -peso_termo_partido #sigla")
+				iterate(p, store, func(info tInfo) {
+					infos[info["id"]] = info
+					counter[info["id"]] += 1
+				})
+			}
+			for sigla, info := range infos {
+				info["peso"] = fromFloat(counter[sigla])
 				results = append(results, info)
-			})
+			}
+			sort.Sort(sort.Reverse(ByWeight(results)))
 			break
 		case "artigos_by_term":
 			id := r.URL.Query().Get("id")
-			// p := path.NewPath(store).Has(quad.IRI("nome"), quad.String(id)).In(quad.IRI("termo_artigo")).In(quad.IRI("peso_termo_artigo")).Save(quad.IRI("titulo"), "titulo")
 			p := ApplyPath(path.NewPath(store).Has(quad.IRI("nome"), quad.String(id)), "-termo_artigo -peso_termo_artigo #titulo")
 			it := p.BuildIterator()
 			for it.Next() {
@@ -138,14 +146,7 @@ func init() {
 			infos := make(map[string](tInfo))
 			p_template := ApplyPath(nil, "-termo_artigo -peso_termo_artigo +peso_termo_artigo #peso +termo_artigo #nome")
 			for _, id := range ids {
-				// p := ApplyPathHas(store, "nome", id, "").Follow(p_template)
 				p := path.NewPath(store).Has(quad.IRI("nome"), quad.String(id)).Follow(p_template)
-				// it := p.BuildIterator()
-				// for it.Next() {
-				// 	info := getNodeInfo(it, store)
-				// 	infos[info["id"]] = info
-				// 	counter[info["id"]] += toFloat(info["peso"])
-				// }
 				iterate(p, store, func(info tInfo) {
 					infos[info["id"]] = info
 					counter[info["id"]] += toFloat(info["peso"])
@@ -164,7 +165,6 @@ func init() {
 			id := r.URL.Query().Get("id")
 			counter := make(map[string]int)
 			infos := make(map[string](tInfo))
-			// similar := path.NewPath(nil).Out(quad.IRI("similar")).Save(quad.IRI("sigla"), "sigla")
 			similar := ApplyPath(path.NewPath(nil), "+similar #sigla")
 			p1 := path.StartPath(store, quad.Raw(id)).Follow(similar)
 			p2 := p1.Follow(similar)
@@ -217,7 +217,6 @@ func init() {
 			ids := strings.Split(id_str, ",")
 			counter := make(map[string]float64)
 			infos := make(map[string](tInfo))
-			// p_template := path.NewPath(nil).Out(quad.IRI("peso_termo_partido")).Save(quad.IRI("peso"), "peso").Out(quad.IRI("termo_partido")).Out(quad.IRI("nome"))
 			p_template := ApplyPath(path.NewPath(nil), "+peso_termo_partido #peso +termo_partido +nome")
 			for _, id := range ids {
 				p := path.StartPath(store, quad.Raw(id)).Follow(p_template)
@@ -241,7 +240,7 @@ func init() {
 		json.NewEncoder(w).Encode(map[string]interface{}{"result": results})
 	})
 	http.HandleFunc("/graph", func(w http.ResponseWriter, r *http.Request) {
-		file, _ := ioutil.ReadFile("graph2.html")
+		file, _ := ioutil.ReadFile("graph.html")
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		w.Write(file)
 	})

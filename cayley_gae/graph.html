@@ -1,110 +1,36 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-        <title>Graph</title>
-        <link rel="stylesheet" href="/static/material-icons.css">
-        <link rel="stylesheet" href="/static/material.min.css">
-        <script defer src="/static/material.min.js"></script>
-        <style>
-        .demo-layout-waterfall .mdl-layout__header-row .mdl-navigation__link:last-of-type  {
-          padding-right: 0;
-        }
-        .card-wide {
-            width: 90%;
-            margin: 0 5% 20px 5%;
-        }
-        </style>
-        
-<style>
-@import 'https://fonts.googleapis.com/css?family=Roboto+Condensed';
-
-rect {
-  fill: none;
-  pointer-events: all;
-}
-
-text {
-  text-anchor: middle;
-  fill: blue;
-}
-
-p {
-  color: #55666F
-  font-family: 'Roboto Condensed', sans-serif;
-}
-
-.node {
-  fill: rgb(104, 188, 255);
-}
-
-.node.termo {
-  fill: #fff640;
-}
-
-.node:hover{
-  fill: #77aaff;
-}
-
-.cursor {
-  fill: none;
-  stroke: brown;
-  pointer-events: none;
-}
-
-.link {
-  stroke: #999;
-}
-
-</style>
-        
-        <script src="/static/jquery.min.js"></script>
-        <script src="/static/d3.js"></script>
-    </head>
-
-<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
-  <div class="demo-layout-waterfall mdl-layout mdl-js-layout">
-    <header class="mdl-layout__header mdl-layout__header--waterfall">
-      <!-- Top row, always visible -->
-      <div class="mdl-layout__header-row">
-        <!-- Title -->
-        <h1 class="mdl-layout-title">Graph</h1>
-        <div class="mdl-layout-spacer"></div>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
-                    mdl-textfield--floating-label mdl-textfield--align-right">
-          <label class="mdl-button mdl-js-button mdl-button--icon"
-                 for="waterfall-exp">
-            <i class="material-icons">vpn_key</i>
-          </label>
-          <div class="mdl-textfield__expandable-holder">
-            <input class="mdl-textfield__input password" type="password" name="sample"
-                   id="waterfall-exp">
-          </div>
-        </div>
-      </div>
-      <!-- Bottom row, not visible on scroll -->
-      <div class="mdl-layout__header-row">
-        <div class="mdl-layout-spacer"></div>
-      </div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Graph</title>
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/d3-v3.js"></script>
+    <script src="/static/d3.layout.cloud.min.js"></script>
+    <script src="/static/jquery-ui.min.js"></script>
+    <script src="/static/dados_partidos.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/jquery-ui.min.css">
+</head>
+<body>
+    <header>
+        <span>TCC Politica</span>
+        <input type="text" placeholder="Pesquise por um assunto ..." id="search">
+        <a id="clear">Limpar Seleção</a>
     </header>
-    <div class="mdl-layout__drawer">
-      <span class="mdl-layout-title">Title</span>
-      <nav class="mdl-navigation">
-        <a class="mdl-navigation__link" href="/">Home</a>
-      </nav>
-    </div>
-    <main class="mdl-layout__content">
-      <div class="page-content">
-        <div class="row"><input class="search" type='text' placeholder="Busque por um assunto ..."></div>
-        <div class="main-pane">
-            <div class="left-pane"><ul id="partidos"></ul></div>
-            <div class="center-pane"><svg id="graph"></svg></div>
-            <div class="right-pane"><ul id="assuntos"></ul></div>
-        </div>
-      </div>
+    <main>
+        <div class="left-pane"><h3>Partidos</h3><ul id="partidos"></ul></div>
+        <div class="main-pane"><svg id="graph"></svg></div>
+        <div class="right-pane"><h3>Assuntos Selecionados</h3><ul id="assuntos"></ul></div>
     </main>
-  </div>
-<script src="/static/code.js"></script>
+    <script src="/static/helper.js"></script>
+    <script src="/static/code.js"></script>
+
+    <script type="template" id="template-tooltip">
+<img class="logo" src="/static/img/{{sigla}}.png">
+<p><b>Nome: </b><span class=".nome">{{nome}}</span></p>
+<p><b>Sigla: </b><span class=".sigla">{{sigla}}</span></p>
+<p><b>Site: </b><span class=".site">{{site}}</span></p>
+    </script>
 </body>
 </html>

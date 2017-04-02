@@ -1,0 +1,125 @@
+body {
+    margin: 0px;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    height: 50px;
+    left: 0;
+    right: 0;
+    background-color: purple;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+header input {
+    display: inline;
+}
+
+header > span {
+    float: left;
+    color: white;
+}
+
+#search {
+    width: 50%;
+}
+
+#password {
+    float: right;
+}
+
+main {
+    margin-top: 50px;
+    width: 100%;
+    padding: 10px 0;
+}
+
+main > div {
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.left-pane {
+    width: 20%;
+    background-color: blue;
+    float: left;
+    min-height: 200px;
+}
+
+.main-pane {
+    width: 60%;
+    background-color: #fafafa;
+    float: left;
+}
+
+.right-pane {
+    width: 20%;
+    background-color: turquoise;
+    flot: right;
+}
+
+.left-pane h3, .right-pane h3 {
+    text-align: center;
+    color: white;
+}
+
+#partidos {
+    padding: 0px 10px;
+}
+
+#partidos li {
+    list-style-type: none;
+    width: 100%;
+    background-color: red;
+    padding: 5px;
+    box-sizing: border-box;
+    text-align: center;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+#partidos li:hover {
+    background-color: pink;
+}
+
+#partidos li.selected {
+    background-color: rebeccapurple;
+}
+
+#graph {
+
+}
+
+#graph text {
+    cursor: pointer;
+}
+
+#assuntos {
+    padding: 0px 10px;
+}
+
+#assuntos li {
+    list-style-type: none;
+    width: 100%;
+    background-color: yellow;
+    padding: 5px;
+    box-sizing: border-box;
+    text-align: center;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+#partidos li:hover {
+    background-color: lightyellow;
+}
+
+#partidos li.selected {
+    background-color: green;
+}
+
+.inactive {
+    filter: contrast(33%) grayscale(100%) brightness(200%);
+}

@@ -8,15 +8,9 @@ import pickle
 tagger = pickle.load(open("tagger.pkl"))
 portuguese_sent_tokenizer = nltk.data.load("tokenizers/punkt/portuguese.pickle")
 
-def extract_entity_names(t):
-    entity_names = []
-    if hasattr(t, 'label') and t.label:
-        if t.label() == 'NE':
-            entity_names.append(' '.join([child[0] for child in t]))
-        else:
-            for child in t:
-                entity_names.extend(extract_entity_names(child))
-    return entity_names
+def lowercase_and_tag(text, tagger):
+    res = tagger.tag(text)
+    return [(a, b[1]) for a,b in zip(text, res)]
 
 def chunk_sent(words):
     res = []
@@ -53,16 +47,12 @@ def extract_entities(text, tagger):
     entities = []
     all_tags = []
     pattern = re.compile(r'[^\w_-]+', re.UNICODE)
-    chunker = nltk.RegexpParser(" NE: {<NOUN><ADP|NOUN>*<NOUN><ADJ>?}\n{<NOUN>+<ADJ>?} ")
-    # chunker2 = nltk.RegexpParser(" NE: {<NOUN>+<ADP>*<NOUN>*<ADP>*<NOUN>+<ADJ>?}\n{<NOUN>+<ADJ>?} ")
     sentences = portuguese_sent_tokenizer.tokenize(text)
     for sentence in sentences:
         tokens = nltk.word_tokenize(sentence)
         tokens = [re.sub(pattern, "", word) for word in tokens]
         tokens = ["," if a == "" else a for a in tokens]
-        tags = tagger.tag(tokens)
-        # chunks = chunker.parse(tags)
-        # entities.extend(extract_entity_names(chunks))
+        tags = lowercase_and_tag(tokens, tagger)
         entities.extend(chunk_sent(tags))
         all_tags.extend(tags)
     entities = filter(lambda e: e.strip(), entities)

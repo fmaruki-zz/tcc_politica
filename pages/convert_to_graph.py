@@ -143,7 +143,7 @@ top800 = {}
 for partido, kk in relevancia.items():
     kt = kk.items()
     kt.sort(key=lambda a: -a[1])
-    kt = kt[:800]
+    kt = kt[:1200]
     top800[partido] = kt
 
 tt800 = defaultdict(set)
@@ -197,34 +197,3 @@ with open("output_quads.nq", "w") as f:
 			f.write('<W:{}> <peso> "{}" .\n'.format(weight_id, artigo_[3]))
 			f.write('<W:{}> <termo_artigo> <T:{}> .\n'.format(weight_id, termo[0]))
 	pass
-
-# with open("output_graph.json", "w") as f:
-#     print "partido"
-#     for partido in Partidos.array.values():
-#         obj = Partidos.print_node(partido, by1, by2)
-#         print >>f, obj
-#     Partidos = None
-
-#     print "artigo"
-#     for artigo in Artigos.array.values():
-#         obj = Artigos.print_node(artigo, by1, by2)
-#         print >>f, obj
-#     Artigos = None
-
-#     print "termo"
-#     for termo in Termos.array.values():
-#         obj = Termos.print_node(termo, by1, by2)
-#         print >>f, obj
-#     Termos = None
-
-"""
-Nodes:
-- partido
-- term
-- artigo
-
-Links:
-- partido > artigo
-- artigo > term
-- partido > term
-"""

@@ -129,6 +129,21 @@ jQuery(document).ready(function() {
             jQuery(".ui-helper-hidden-accessible div").remove()
         }
     });
+
+    if(document.location.pathname === "/") {
+        jQuery("#modal").dialog({
+            modal: true,
+            title: "Extração e Exploração dos Tópicos de Interesse dos Partidos Políticos Brasileiros",
+            width: "800px",
+            close: function() {
+                if(typeof history === "object") {
+                    history.pushState({}, "", "/graph");
+                } else {
+                    document.location.pathname = "/graph";
+                }
+            }
+        });
+    }
 });
 
 jQuery("#partidos").on("click", "li", function(ev) {

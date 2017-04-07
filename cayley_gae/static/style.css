@@ -127,3 +127,7 @@ main > div {
     width: 50px;
     max-height: 50px;
 }
+
+#modal {
+    display: none;
+}

@@ -2,7 +2,7 @@ package cayleyappengine
 
 import (
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"github.com/cayleygraph/cayley"
 	"github.com/cayleygraph/cayley/graph"
 	_ "github.com/cayleygraph/cayley/graph/memstore"
@@ -246,13 +246,9 @@ func init() {
 	})
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		p := cayley.StartPath(store, quad.Raw("<P:1>")).Out(quad.Raw("<sigla>"))
-		vals, err := p.Iterate(nil).AllValues(nil)
-		fmt.Fprint(w, vals[0])
-		fmt.Fprint(w, len(vals))
-		if err != nil {
-			log.Fatal(err)
-		}
+		file, _ := ioutil.ReadFile("graph.html")
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.Write(file)
 	})
 }
 
